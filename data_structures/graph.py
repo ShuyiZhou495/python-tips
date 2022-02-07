@@ -153,6 +153,7 @@ class Graph(GraphBase):
 
     def mst_prim(self, source):
         res = Graph()
+        weight_total = []
         c = {}
         u = list(self.nodes.keys())
         u.remove(source)
@@ -161,6 +162,7 @@ class Graph(GraphBase):
         while u:
             w = min(c, key=c.get)
             res.add_edges([(w, c[w][1])], weight=c[w][0])
+            weight_total += [c[w][0]]
             c.pop(w)
             u.remove(w)
             for node in u:
@@ -170,7 +172,7 @@ class Graph(GraphBase):
                     weight = self.edges[w][node]['weight']
                     if weight < c[node][0]:
                         c[node] = (weight, w)
-        return res
+        return res, weight_total
 
 class DiGraph(GraphBase):
     """
@@ -271,8 +273,9 @@ def example_mst():
     edges = [(0, 4), (4, 5), (2, 5), (2, 0), (5, 1), (0, 1), (0, 3), (3, 4), (4, 0), (4, 2)]
     weights = [2, 15, 18, 18, 20, 10, 17, 5, 8, 11]
     g.add_edges(edges, weight=weights)
-    t = g.mst_prim(0)
+    t, weight_total = g.mst_prim(0)
     t.print_edges()
+    print(weight_total)
 
 
 
