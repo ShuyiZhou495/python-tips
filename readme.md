@@ -20,6 +20,7 @@ A brief introduction of the library is written in [for_networkx.py](./useful_fun
 - If you need to implement search by yourself using `networkx.Graph` class:
   - Depth-first-search is in [dfs.py](./algorithms/graph_search/dfs.py)
   - Breadth-first-search is in [bfs.py](./algorithms/graph_search/bfs.py)
+  - Prim's minimum spanning tree is implemented as `mst_prim(G, source)` in [mst.py](algorithms/graph_search/mst.py)
   - An example of using them is shown in [main_graph.py](./algorithms/main_graph.py). This file also shows:
     - How to set color of the graph:
       - `nx.draw(G, node_color=your_list_of_colors)`
@@ -42,7 +43,7 @@ undirenctional graph is `Graph`.
 
 ## Linked list
 - list in python is linked list. 
-Some functions as reminder are written in [list_usage.py](useful_functions/list_usage.py)
+Some functions as reminder are written in [list_usage.py](useful_functions/for_list.py)
 
 - I also wrote a simple `linked_list` class in [linked_list.py](./data_structures/linked_list.py)
 - Notice that you need to use 
