@@ -1,4 +1,5 @@
 import networkx as nx
+import matplotlib.pyplot as plt
 
 def bfs(n, G: nx.Graph):
     # set attributes
@@ -29,6 +30,12 @@ def bfs(n, G: nx.Graph):
                 G.nodes[u][f"distance from {n}"] = dis + 1
                 queue.append((u, dis + 1))
                 visited += [{"node": u, "distance": dis + 1, "from": node}]
+
+    # plot
+    # G.nodes.data('color') can be transformed to dictionary
+    colors = list(dict(G.nodes.data('color')).values()) # a list of colors
+    nx.draw(G, with_labels=True, node_color=colors)
+    plt.show()
 
     # change everything back
     nx.set_node_attributes(G, False, "visited")

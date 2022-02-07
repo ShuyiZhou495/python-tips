@@ -36,7 +36,6 @@ class GraphBase:
                     else:
                         self.nodes[node][kw] = kwargs[kw]
 
-
     def add_edges(self, edges: list, **kwargs):
         pass
 
@@ -52,7 +51,7 @@ class GraphBase:
             res[u] = list(us.keys())
         print("edges:", res)
 
-    def set_node_attributes(self, value, label):
+    def set_node_attributes(self, value, label: str):
         for node in self.nodes:
             self.nodes[node][label] = value
 
