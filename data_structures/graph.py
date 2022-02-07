@@ -2,20 +2,20 @@ from collections import defaultdict
 
 class GraphBase:
     """
-    nodes = {1: {'visited': False}, 2: {'visited': False}}
+    nodes = {1: {'visited': 0}, 2: {'visited': 1}}
     edges = {
         1:
             {
-                2: {'color': 'red'},
-                3: {'color': 'green'}
+                2: {'weight': 2},
+                3: {'weight': 0.2}
             },
         2:
             {
-                1: {'color': 'red'}
+                1: {'weight': 3.1}
             },
         3:
             {
-                1: {'color': 'green'}
+                1: {'weight': 3.0}
             }
     }
     """
