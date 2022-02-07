@@ -22,14 +22,22 @@ class GraphBase:
 
     def __init__(self):
         self.nodes = defaultdict(lambda : defaultdict(int))
-        self.edges = defaultdict(lambda : defaultdict(lambda: defaultdict(lambda: None)))
+        self.edges = defaultdict(lambda : defaultdict(lambda: defaultdict(float)))
 
-    def add_nodes(self, nodes: list):
-        for node in nodes:
+    def add_nodes(self, nodes: list, **kwargs):
+        for i, node in enumerate(nodes):
             if not self.has_node(node):
-                self.nodes[node] = defaultdict(lambda: None)
+                self.nodes[node] = defaultdict(int)
+                for kw in kwargs:
+                    if(type(kwargs[kw]) == type([])):
+                        assert len(kwargs[kw])==len(nodes), \
+                            (f"length of nodes is not equal to length of {kw} attribute")
+                        self.nodes[node][kw] = kwargs[kw][i]
+                    else:
+                        self.nodes[node][kw] = kwargs[kw]
 
-    def add_edges(self, edges: list):
+
+    def add_edges(self, edges: list, **kwargs):
         pass
 
     def has_node(self, u):
@@ -104,12 +112,22 @@ class GraphBase:
 
 class Graph(GraphBase):
 
-    def add_edges(self, edges: list):
-        for u, v in edges:
+    def add_edges(self, edges: list, **kwargs):
+        for i, edge in enumerate(edges):
+            u, v = edge
             self.add_nodes([u, v])
             if v not in self.edges[u]:
                 self.edges[u][v] = defaultdict(lambda: None)
                 self.edges[v][u] = defaultdict(lambda: None)
+                for kw in kwargs:
+                    if type(kwargs[kw]) == type([]):
+                        assert len(kwargs[kw])==len(edges), \
+                            (f"length of edges is not equal to length of {kw} attribute")
+                        self.edges[u][v][kw] = kwargs[kw][i]
+                        self.edges[v][u][kw] = kwargs[kw][i]
+                    else:
+                        self.edges[u][v][kw] = kwargs[kw]
+                        self.edges[v][u][kw] = kwargs[kw]
 
     def degree(self, n):
         return len(self.edges[n])
@@ -134,6 +152,27 @@ class Graph(GraphBase):
             except:
                 continue
 
+    def mst_prim(self, source):
+        res = Graph()
+        c = {}
+        u = list(self.nodes.keys())
+        u.remove(source)
+        for node in u:
+            c[node] = (self.edges[source][node]['weight'] if node in self.edges[source] else float('inf'), source)
+        while u:
+            w = min(c, key=c.get)
+            res.add_edges([(w, c[w][1])], weight=c[w][0])
+            c.pop(w)
+            u.remove(w)
+            for node in u:
+                if node not in self.edges[w]:
+                    continue
+                else:
+                    weight = self.edges[w][node]['weight']
+                    if weight < c[node][0]:
+                        c[node] = (weight, w)
+        return res
+
 class DiGraph(GraphBase):
     """
     edges is out edges
@@ -142,12 +181,22 @@ class DiGraph(GraphBase):
     """
     inEdges = defaultdict(lambda : defaultdict(lambda: defaultdict(lambda: None)))
 
-    def add_edges(self, edges: list):
-        for u, v in edges:
+    def add_edges(self, edges: list, **kwargs):
+        for i, edge in enumerate(edges):
+            u, v = edge
             self.add_nodes([u, v])
             if v not in self.edges[u]:
                 self.edges[u][v] = defaultdict(lambda: None)
                 self.inEdges[v][u] = defaultdict(lambda: None)
+                for kw in kwargs:
+                    if type(kw) == type([]):
+                        assert len(kwargs[kw])==len(edges), \
+                            (f"length of edges is not equal to length of {kw} attribute")
+                        self.edges[u][v][kw] = kwargs[kw][i]
+                        self.edges[v][u][kw] = kwargs[kw][i]
+                    else:
+                        self.edges[u][v][kw] = kwargs[kw]
+                        self.edges[v][u][kw] = kwargs[kw]
 
     def print_in_edges(self):
         res = {}
@@ -193,7 +242,7 @@ class DiGraph(GraphBase):
                 continue
 
 
-if __name__ == '__main__':
+def example_undirectional_graph():
     print("undirectional graph")
     g = Graph()
     g.add_nodes([1, 2, 3, 4,12,13])
@@ -203,14 +252,10 @@ if __name__ == '__main__':
     print("degrees:", g.degrees())
     print("bfs result: ", g.bfs(1))
     print("dfs result: ", g.dfs(1))
-
-
     g.remove_nodes([1, 3, 100])
     g.remove_edges([(1, 2), (12, 13), (1, 5), (200, 1)])
 
-
-    print("---------------------------")
-
+def example_directional_graph():
     print("directional graph")
     h = DiGraph()
     h.add_nodes([1, 2, 3, 4,12,13])
@@ -220,3 +265,19 @@ if __name__ == '__main__':
     h.print_in_edges()
     print("out degrees:", h.out_degrees())
     print("in degrees:", h.in_degrees())
+
+def example_mst():
+    print("create an undirectional graph")
+    g = Graph()
+    edges = [(0, 4), (4, 5), (2, 5), (2, 0), (5, 1), (0, 1), (0, 3), (3, 4), (4, 0), (4, 2)]
+    weights = [2, 15, 18, 18, 20, 10, 17, 5, 8, 11]
+    g.add_edges(edges, weight=weights)
+    t = g.mst_prim(0)
+    t.print_edges()
+
+
+
+if __name__ == '__main__':
+    # example_directional_graph()
+    # example_directional_graph()
+    example_mst()

@@ -14,8 +14,9 @@ there are files for graphs in all of [useful_functions](./useful_functions),
 A brief introduction of the library is written in [for_networkx.py](./useful_functions/for_networkx.py)
 
 - Normally we use `networkx` library for search.
-  - Depth-first-search: `list(nx.dfs_preorder_nodes(G, starting_node))`
-  - Breadth-first-search: `nx.bfs_tree(G, starting_node).nodes`
+  - Depth-first-search (dfs): `list(nx.dfs_preorder_nodes(G, starting_node))`
+  - Breadth-first-search (bfs): `nx.bfs_tree(G, starting_node).nodes`
+  - Minimum-spanning-tree (mst): `nx.minimum_spanning_tree(G)`
 - If you need to implement search by yourself using `networkx.Graph` class:
   - Depth-first-search is in [dfs.py](./algorithms/graph_search/dfs.py)
   - Breadth-first-search is in [bfs.py](./algorithms/graph_search/bfs.py)
@@ -33,9 +34,9 @@ I don't guarantee there is no bug.
 Similar as `networkx`,  directional graph is `DiGraph`,
 undirenctional graph is `Graph`.
 
-Search algorithm
 - dfs is used by `G.dfs(source_node)`
 - bfs is used by `G.bfs(source_node)`
+- mst is used by `G.mst(source_node)`
 
 ---
 
@@ -55,3 +56,4 @@ Some other useful functions in [useful_functions](./useful_functions).
 - [useful functions for string](./useful_functions/for_string.py)
   - padding: `f"{a:04}"`
   - precision: `f"{a:.5f}"`
+- Import Some common libraries: [imports.py](./useful_functions/imports.py)

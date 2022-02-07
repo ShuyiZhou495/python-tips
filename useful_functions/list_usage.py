@@ -11,4 +11,6 @@ a.remove(2) # a is [1, 'a', 3] <== remove value 2
 a.append(3) # a is [1, 'a', 3, 3]
 a.remove(3) # a is [1, 'a', 3] <= only remove the first occurrence
 
-
+# iterate
+for index, value in a:
+    print(index, value)
