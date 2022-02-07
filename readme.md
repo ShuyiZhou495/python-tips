@@ -56,4 +56,5 @@ Some other useful functions in [useful_functions](./useful_functions).
 - [useful functions for string](./useful_functions/for_string.py)
   - padding: `f"{a:04}"`
   - precision: `f"{a:.5f}"`
+- [how to use heapq](./useful_functions/for_heapq.py)
 - Import Some common libraries: [imports.py](./useful_functions/imports.py)
